@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Parrot - <%= page.title %></title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/stylesheets/style.css">
+  </head>
+    <body>
+      <table>
+        <tr>
+          <td style="width:30%">
+            <img class="newappIcon" src="/images/newapp-icon.png">
+          </td>
+          <td>
+            <% if (page.language) { %>
+            <h1 class="blue">Smarter Parrot App</h1>
+            <% } else { %>
+            <h1 class="blue">Simple Parrot App</h1>
+            <% } %>
+            <p>Type a message into the text box below and press Send</p>
+            <form action="/" method="post">
+              <textarea name="input" rows="6" cols="30"><%= page.message %></textarea>
+              <br>
+              <input type="submit" value="Send">
+            </form>
+          </td>
+        </tr>
+        <% if (page.message) { %>
+        <tr>
+          <td> <% if (page.language) { %>
+            <p>In: <span class="blue"><%= page.language %></span></p>
+            <% } %>
+          <td>
+            <p>You said: <span class="blue"><%= page.message %></span></p>
+        </tr>
+        <%  } %>
+      </table>
+    </body>
+  </html>
