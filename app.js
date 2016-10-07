@@ -5,6 +5,9 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
+// comment out line below to disable deployment tracker
+require("cf-deployment-tracker-client").track();
+
 var routes = require('./routes/index');
 // not needed for this simple app
 // var users = require('./routes/users');

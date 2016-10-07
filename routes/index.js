@@ -10,9 +10,9 @@ var cfenv = require('cfenv');
 var appEnv = cfenv.getAppEnv();
 
 // set up watson language translation if service is bound
-var watsonLTConfig = appEnv.getService(/Language Translation.*/);
+var watsonLTConfig = appEnv.getService(/Language Translator.*/);
 if (watsonLTConfig) {
-  var language_translation = watson.language_translation({
+  var language_translator = watson.language_translator({
     username: watsonLTConfig.credentials.username,
     password: watsonLTConfig.credentials.password,
     version: 'v2'
@@ -23,9 +23,9 @@ if (watsonLTConfig) {
 // TODO - A periodic call to this API would be a good idea to catch any changes
 // in languages supported. Only run function if service is bound. For more info
 // see http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/language-translation/api/v2/?node#identifiable_languages
-if (language_translation) {
+if (language_translator) {
   function getLanguageNames() {
-    language_translation.getIdentifiableLanguages(null,
+    language_translator.getIdentifiableLanguages(null,
     function(err, languages) {
       if (err)
         console.log(err)
@@ -52,8 +52,8 @@ function getLanguageName(code) {
 // if we have a watson language service defined, call it on the message input
 // and then convert the returned code to the language name otherwise go to the next function
 function detectLanguage(req, res, next) {
-	if(language_translation) {
-    language_translation.identify({ text: req.body.input}, function(err, identifiedLanguages) {
+	if(language_translator) {
+    language_translator.identify({ text: req.body.input}, function(err, identifiedLanguages) {
     if (err)
       console.log(err)
     else
