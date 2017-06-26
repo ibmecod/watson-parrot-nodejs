@@ -1,6 +1,6 @@
 {
   "name": "watson-parrot-nodejs",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "private": true,
   "scripts": {
     "start": "node ./bin/www"
@@ -19,6 +19,6 @@
   },
   "repository": {
         "type": "git",
-        "url": "https://github.com/ibmecod/watson-parrot-nodejs.git"
+        "url": "https://github.com/timroster/watson-parrot-nodejs.git"
   }
 }

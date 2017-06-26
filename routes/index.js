@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var watson = require('watson-developer-cloud');
+var fs = require('fs');
 
 // cfenv provides access to your Cloud Foundry environment
 // for more info, see: https://www.npmjs.com/package/cfenv
@@ -15,9 +16,23 @@ if (watsonLTConfig) {
   var language_translator = watson.language_translator({
     username: watsonLTConfig.credentials.username,
     password: watsonLTConfig.credentials.password,
+    url: watsonLTConfig.credentials.url,
     version: 'v2'
   });
 }
+// see if there's a secret bound to the container for the service
+else {
+  if (fs.existsSync('/opt/lt-service-bind/binding')) {
+    var binding = JSON.parse(fs.readFileSync('/opt/lt-service-bind/binding', 'utf8'));
+
+    var language_translator = watson.language_translator({
+      username: binding.username,
+      password: binding.password,
+      url: binding.url,
+      version: 'v2'
+    });
+  }
+};
 
 // This API call takes some time so invoke before starting up the application
 // TODO - A periodic call to this API would be a good idea to catch any changes

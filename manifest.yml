@@ -1,8 +1,8 @@
 applications:
 - path: .
-  memory: 256M
+  memory: 128M
   instances: 1
   domain: mybluemix.net
   name: nbparrot
-  host: nbparrot
+  random-route: true
   disk_quota: 1024M
