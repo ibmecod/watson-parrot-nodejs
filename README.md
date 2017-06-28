@@ -6,7 +6,7 @@ This app is built using the [express application generator](http://expressjs.com
 
 You can deploy this application to your Bluemix environment by clicking on this button. It will create a Bluemix DevOps Services project, copy this repository into the project and deploy it.
 
-[![Deploy to Bluemix](https://bluemix.net/deploy/button_x2.png)](https://bluemix.net/deploy?repository=https://github.com/timroster/watson-parrot-nodejs)
+[![Deploy to Bluemix](https://deployment-tracker.mybluemix.net/stats/12925bf9d6537c1d53a56faf3ff657ab/button.svg)](https://bluemix.net/deploy?repository=https://github.com/ibmecod/watson-parrot-nodejs.git)
 
 Once you have tried the application, use the Bluemix dashboard or Cloud Foundry cli to add the Watson Language Translation service to the app. Restage the app when prompted. The app will use this service to display the language of the message entered into the app.
 
