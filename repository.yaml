@@ -1,0 +1,8 @@
+id: https://github.com/ibmecod/watson-parrot-nodejs.git
+runtimes:
+ - Cloud Foundry
+services:
+ - Language Translator
+event_id: web
+event_organizer: dev-journeys
+language: nodejs

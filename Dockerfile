@@ -1,4 +1,4 @@
-FROM ibmcom/ibmnode:latest
+FROM node:boron-alpine
 
 ENV NODE_ENV=production PORT=6001
 EXPOSE 6001
