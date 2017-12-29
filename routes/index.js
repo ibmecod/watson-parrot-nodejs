@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var watson = require('watson-developer-cloud');
+var LanguageTranslatorV2 = require('watson-developer-cloud/language-translator/v2');
 var fs = require('fs');
 
 // cfenv provides access to your Cloud Foundry environment
@@ -13,11 +13,10 @@ var appEnv = cfenv.getAppEnv();
 // set up watson language translation if service is bound
 var watsonLTConfig = appEnv.getService(/Language Translator.*/);
 if (watsonLTConfig) {
-  var language_translator = watson.language_translator({
+  var language_translator = new LanguageTranslatorV2({
     username: watsonLTConfig.credentials.username,
     password: watsonLTConfig.credentials.password,
     url: watsonLTConfig.credentials.url,
-    version: 'v2'
   });
 }
 // see if there's a secret bound to the container for the service
@@ -25,13 +24,18 @@ else {
   if (fs.existsSync('/opt/lt-service-bind/binding')) {
     var binding = JSON.parse(fs.readFileSync('/opt/lt-service-bind/binding', 'utf8'));
 
-    var language_translator = watson.language_translator({
+    var language_translator = new LanguageTranslatorV2({
       username: binding.username,
       password: binding.password,
       url: binding.url,
       version: 'v2'
     });
-  }
+  };
+  // run empty constructor and get credentials from environment if available
+  if (process.env.LANGUAGE_TRANSLATOR_USERNAME) { var language_translator = new LanguageTranslatorV2({
+      url: 'https://gateway.watsonplatform.net/language-translator/api/'
+    });
+  };
 };
 
 // This API call takes some time so invoke before starting up the application
