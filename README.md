@@ -1,6 +1,6 @@
 # Watson Simple Parrot in Node.js
 
-![IBM Cloud Deployments](https://metrics-tracker.mybluemix.net/stats/12925bf9d6537c1d53a56faf3ff657ab/badge.svg)
+![(https://img.shields.io/badge/IBM%20Cloud-powered-blue.svg)](https://bluemix.net)
 
 This app is built using the [express application generator](http://expressjs.com/en/starter/generator.html). It creates a simple form where the user can enter some text. After submitting the text, the app displays it back to the user. The app is designed to be extended by adding the Watson Language Translation API service to perform actions like identifying the language of the input text, or to translate it to a different language. All views are rendered using the EJS template language.
 
@@ -8,7 +8,7 @@ This app is built using the [express application generator](http://expressjs.com
 
 You can deploy this application to your IBM Cloud Foundry environment by clicking on this button. It will create a IBM Cloud Continous Delivery toolchain, copy this repository into a new repository and deploy it.
 
-[![Deploy to IBM Cloud](https://metrics-tracker.mybluemix.net/stats/12925bf9d6537c1d53a56faf3ff657ab/button.svg)](https://bluemix.net/deploy?repository=https://github.com/ibmecod/watson-parrot-nodejs.git)
+[![Deploy to IBM Cloud](https://bluemix.net/deploy/button.png)](https://bluemix.net/deploy?repository=https://github.com/ibmecod/watson-parrot-nodejs.git)
 
 Once you have tried the application, use the IBM Cloud dashboard or Cloud Foundry cli to add the Watson Language Translation service to the app. Restage the app when prompted. The app will use this service to display the language of the message entered into the app.
 
@@ -86,30 +86,3 @@ When running locally as a container the application will not use the Watson Lang
   bx cs workers <your-cluster-name>
   ```
 9. Access the application at `http://<worker-ip>:30801/` . With the Language Translator service bound to the cluster and associated with the pod for the deployment, the app is able to determine the language used in the message.
-
-
-# Privacy Notice
-
-Sample web applications that include this package may be configured to track deployments to [IBM Cloud](https://www.bluemix.net/) and other Cloud Foundry platforms. The following information is sent to a [Deployment Tracker](https://github.com/IBM/metrics-collector-service) service on each deployment:
-
-* Node.js package version
-* Node.js repository URL
-* Application Name (`application_name`)
-* Application GUID (`application_id`)
-* Application instance index number (`instance_index`)
-* Space ID (`space_id`) or OS username
-* Application Version (`application_version`)
-* Application URIs (`application_uris`)
-* Cloud Foundry API (`cf_api`)
-* Labels of bound services
-* Number of instances for each bound service and associated plan information
-* Metadata in the repository.yaml file
-
-This data is collected from the `package.json` and `repository.yaml` file in the sample application and the `VCAP_APPLICATION` and `VCAP_SERVICES` environment variables in IBM Cloud and other Cloud Foundry platforms. This data is used by IBM to track metrics around deployments of sample applications to IBM Cloud to measure the usefulness of our examples, so that we can continuously improve the content we offer to you. Only deployments of sample applications that include code to ping the Deployment Tracker service will be tracked.
-
-## Disabling Deployment Tracking
-
-To disable deployment tracking, edit the app.js file and comment line 9 containing:
-   ```
-   require("metrics-tracker-client").track();
-   ```
