@@ -1,6 +1,6 @@
 # Watson Simple Parrot in Node.js
 
-![(https://img.shields.io/badge/IBM%20Cloud-powered-blue.svg)](https://bluemix.net)
+[![](https://img.shields.io/badge/IBM%20Cloud-powered-blue.svg)](https://bluemix.net)
 
 This app is built using the [express application generator](http://expressjs.com/en/starter/generator.html). It creates a simple form where the user can enter some text. After submitting the text, the app displays it back to the user. The app is designed to be extended by adding the Watson Language Translation API service to perform actions like identifying the language of the input text, or to translate it to a different language. All views are rendered using the EJS template language.
 
