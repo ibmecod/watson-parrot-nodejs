@@ -1,6 +1,6 @@
 var express = require('express');
 var router = express.Router();
-var LanguageTranslatorV2 = require('watson-developer-cloud/language-translator/v2');
+var LanguageTranslatorV3 = require('watson-developer-cloud/language-translator/v3');
 var fs = require('fs');
 
 // cfenv provides access to your Cloud Foundry environment
@@ -10,41 +10,59 @@ var cfenv = require('cfenv');
 // get the app environment from Cloud Foundry
 var appEnv = cfenv.getAppEnv();
 
-// set up watson language translation if service is bound
+// set up watson language translation if service is bound use user/pass or iam_api_key as provided
 var watsonLTConfig = appEnv.getService(/Language Translator.*/);
 if (watsonLTConfig) {
-  var language_translator = new LanguageTranslatorV2({
-    username: watsonLTConfig.credentials.username,
-    password: watsonLTConfig.credentials.password,
-    url: watsonLTConfig.credentials.url,
-  });
+  if (watsonLTConfig.credentials.username) {
+    var language_translator = new LanguageTranslatorV3({
+      username: watsonLTConfig.credentials.username,
+      password: watsonLTConfig.credentials.password,
+      url: watsonLTConfig.credentials.url,
+      version:  '2018-05-01'
+    });
+  }
+  else {
+    var language_translator = new LanguageTranslatorV3({
+      iam_apikey: watsonLTConfig.credentials.apikey,
+      url: watsonLTConfig.credentials.url,
+      version:  '2018-05-01'
+    });
+  }
 }
-// see if there's a secret bound to the container for the service
 else {
   if (fs.existsSync('/opt/lt-service-bind/binding')) {
     var binding = JSON.parse(fs.readFileSync('/opt/lt-service-bind/binding', 'utf8'));
 
-    var language_translator = new LanguageTranslatorV2({
-      username: binding.username,
-      password: binding.password,
-      url: binding.url,
-      version: 'v2'
-    });
+    if (binding.username) {
+      var language_translator = new LanguageTranslatorV3({
+        username: binding.username,
+        password: binding.password,
+        url: binding.url,
+        version: '2018-05-01'
+      });
+    }
+    else {
+      var language_translator = new LanguageTranslatorV3({
+        iam_apikey: binding.apikey,
+        url: binding.url,
+        version: '2018-05-01'
+      });
+    }
   };
   // run empty constructor and get credentials from environment if available
-  if (process.env.LANGUAGE_TRANSLATOR_USERNAME) { var language_translator = new LanguageTranslatorV2({
-      url: 'https://gateway.watsonplatform.net/language-translator/api/'
+  if (process.env.LANGUAGE_TRANSLATOR_APIKEY) { var language_translator = new LanguageTranslatorV3({
+      iam_apikey: process.env.LANGUAGE_TRANSLATOR_APIKEY,
+      version: '2018-05-01'
     });
-  };
+  }
 };
 
 // This API call takes some time so invoke before starting up the application
 // TODO - A periodic call to this API would be a good idea to catch any changes
-// in languages supported. Only run function if service is bound. For more info
-// see http://www.ibm.com/smarterplanet/us/en/ibmwatson/developercloud/language-translation/api/v2/?node#identifiable_languages
+// in languages supported. Only run function if service is bound.
 if (language_translator) {
   function getLanguageNames() {
-    language_translator.getIdentifiableLanguages(null,
+    language_translator.listIdentifiableLanguages(null,
     function(err, languages) {
       if (err)
         console.log(err)
